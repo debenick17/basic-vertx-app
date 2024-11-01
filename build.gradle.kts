@@ -27,6 +27,20 @@ application {
   mainClass.set(launcherClassName)
 }
 
+
+publishing {
+    repositories {
+        name = "GitHubPackages"
+        maven {
+            url "https://maven.pkg.github.com/debenick17/demopackages"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("PINNACL_TOKEN")
+            }
+        }
+    }
+}
+
 dependencies {
   implementation(platform("io.vertx:vertx-stack-depchain:$vertxVersion"))
   implementation("io.vertx:vertx-web-client")
