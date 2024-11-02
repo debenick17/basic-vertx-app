@@ -1,4 +1,4 @@
-name: Pinnacl Commons CI
+name: Basic Vertx App CI
 
 on:
   push:
@@ -28,7 +28,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew build --scan
 
       - name: Publish to GitHub Packages
         run: ./gradlew publish
