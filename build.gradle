@@ -29,7 +29,7 @@ application {
 publishing {
     repositories {
     maven {
-      name = "GitHubPackages"
+      name = "BasicVertxApp"
       url = "https://maven.pkg.github.com/debenick17/basic-vertx-app"
       credentials {
         username = System.getenv("GITHUB_ACTOR")
