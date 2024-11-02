@@ -1,80 +1,76 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.gradle.api.tasks.testing.logging.TestLogEvent.*
-
 plugins {
-  java
-  application
-  id("com.github.johnrengelman.shadow") version "7.1.2"
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-group = "io.app"
-version = "1.0.0-SNAPSHOT"
+group = 'io.app'
+version = '1.0.0-SNAPSHOT'
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
-val vertxVersion = "4.5.10"
-val junitJupiterVersion = "5.9.1"
-
-val mainVerticleName = "io.app.basic.MainVerticle"
-val launcherClassName = "io.vertx.core.Launcher"
-
-val watchForChange = "src/**/*"
-val doOnChange = "${projectDir}/gradlew classes"
+ext {
+    vertxVersion = '4.5.10'
+    junitJupiterVersion = '5.9.1'
+    mainVerticleName = 'io.app.basic.MainVerticle'
+    launcherClassName = 'io.vertx.core.Launcher'
+    watchForChange = 'src/**/*'
+    doOnChange = "${projectDir}/gradlew classes"
+}
 
 application {
-  mainClass.set(launcherClassName)
+    mainClassName = launcherClassName
 }
-
 
 publishing {
     repositories {
-        name = "GitHubPackages"
         maven {
-            url "https://maven.pkg.github.com/debenick17/demopackages"
+            name = 'GitHubPackages'
+            url = uri('https://maven.pkg.github.com/debenick17/demopackages')
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("PINNACL_TOKEN")
+                username = System.getenv('GITHUB_ACTOR')
+                password = System.getenv('PINNACL_TOKEN')
             }
         }
     }
 }
 
 dependencies {
-  implementation(platform("io.vertx:vertx-stack-depchain:$vertxVersion"))
-  implementation("io.vertx:vertx-web-client")
-  implementation("io.vertx:vertx-web-validation")
-  implementation("io.vertx:vertx-config")
-  implementation("io.vertx:vertx-web")
-  implementation("io.vertx:vertx-web-openapi")
-  implementation("io.vertx:vertx-service-discovery")
-  implementation("io.vertx:vertx-circuit-breaker")
-  implementation("io.vertx:vertx-web-api-contract")
-  testImplementation("io.vertx:vertx-junit5")
-  testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
+    implementation platform("io.vertx:vertx-stack-depchain:${vertxVersion}")
+    implementation 'io.vertx:vertx-web-client'
+    implementation 'io.vertx:vertx-web-validation'
+    implementation 'io.vertx:vertx-config'
+    implementation 'io.vertx:vertx-web'
+    implementation 'io.vertx:vertx-web-openapi'
+    implementation 'io.vertx:vertx-service-discovery'
+    implementation 'io.vertx:vertx-circuit-breaker'
+    implementation 'io.vertx:vertx-web-api-contract'
+    testImplementation "io.vertx:vertx-junit5"
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_17
-  targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
-tasks.withType<ShadowJar> {
-  archiveClassifier.set("fat")
-  manifest {
-    attributes(mapOf("Main-Verticle" to mainVerticleName))
-  }
-  mergeServiceFiles()
+tasks.withType(com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    archiveClassifier.set('fat')
+    manifest {
+        attributes 'Main-Verticle': mainVerticleName
+    }
+    mergeServiceFiles()
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
-  testLogging {
-    events = setOf(PASSED, SKIPPED, FAILED)
-  }
+tasks.withType(Test) {
+    useJUnitPlatform()
+    testLogging {
+        events "PASSED", "SKIPPED", "FAILED"
+    }
 }
 
-tasks.withType<JavaExec> {
-  args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
+tasks.withType(JavaExec) {
+    args = ['run', mainVerticleName, "--redeploy=${watchForChange}", "--launcher-class=${launcherClassName}", "--on-redeploy=${doOnChange}"]
 }
