@@ -183,6 +183,3 @@ nbdist/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-### Gradle Properties
-basic/gradle.properties
