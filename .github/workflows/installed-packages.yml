@@ -11,4 +11,5 @@ jobs:
 
       - name: List installed packages
         run: |
-          dpkg --get-selections
+          helm version
+          gradle -v
