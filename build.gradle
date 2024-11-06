@@ -27,16 +27,6 @@ application {
 }
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java // Include Java components
-            artifact file('./*.jar') // Specify your JAR file
-            pom {
-                from file('./pom.xml') // Include your POM file
-            }
-        }
-    }
-
     repositories {
         mavenLocal()
         maven {
