@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="io.app.basic.TestMainVerticle" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-11-06T02:58:10" hostname="debenick-Latitude-5480" time="0.411">
-  <properties/>
-  <testcase name="verticle_deployed(Vertx, VertxTestContext)" classname="io.app.basic.TestMainVerticle" time="0.411"/>
-  <system-out><![CDATA[HTTP server started on port 8888
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
