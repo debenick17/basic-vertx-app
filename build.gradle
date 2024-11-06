@@ -23,7 +23,7 @@ ext {
 }
 
 application {
-    mainClassName = 'io.app.basic.MainVerticle'
+    mainClassName = launcherClassName
 }
 
 dependencies {
