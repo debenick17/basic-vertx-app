@@ -27,8 +27,6 @@ jobs:
         run: ./gradlew build
 
       - name: Publish to GitHub Packages
-        run: |
-          cd basic-vertx-app
-          ./gradlew publish --info
+        run: ./gradlew publish --info
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
