@@ -1,9 +1,14 @@
 plugins {
     id 'java'
-    id 'application'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
 
-    id("maven-publish")
+    id 'idea'
+
+    id 'maven-publish'
+    id 'jacoco'
+    id 'pmd'
+
+
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = 'io.app'
@@ -22,9 +27,6 @@ ext {
     doOnChange = "${projectDir}/gradlew classes"
 }
 
-application {
-    mainClassName = launcherClassName
-}
 
 publishing {
     repositories {
@@ -60,25 +62,20 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_21.majorVersion))
+    }
 }
 
-tasks.withType(com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-    archiveClassifier.set('fat')
-    manifest {
-        attributes 'Main-Verticle': mainVerticleName
-    }
-    mergeServiceFiles()
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['--enable-preview', '-Xlint:unchecked', '-Xlint:deprecation']
 }
 
 tasks.withType(Test) {
-    useJUnitPlatform()
-    testLogging {
-        events "PASSED", "SKIPPED", "FAILED"
-    }
+    jvmArgs += ['--enable-preview']
 }
 
 tasks.withType(JavaExec) {
-    args = ['run', mainVerticleName, "--redeploy=${watchForChange}", "--launcher-class=${mainClassName}", "--on-redeploy=${doOnChange}"]
+    jvmArgs += ['--enable-preview']
 }
