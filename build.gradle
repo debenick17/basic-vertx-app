@@ -23,7 +23,7 @@ ext {
 }
 
 application {
-    mainClassName = launcherClassName
+    mainClassName = 'io.app.basic.MainVerticle'
 }
 
 dependencies {
@@ -41,8 +41,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_23
+    targetCompatibility = JavaVersion.VERSION_23
 }
 
 tasks.withType(com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
@@ -61,5 +61,5 @@ tasks.withType(Test) {
 }
 
 tasks.withType(JavaExec) {
-    args = ['run', mainVerticleName, "--redeploy=${watchForChange}", "--launcher-class=${launcherClassName}", "--on-redeploy=${doOnChange}"]
+    args = ['run', mainVerticleName, "--redeploy=${watchForChange}", "--launcher-class=${mainClassName}", "--on-redeploy=${doOnChange}"]
 }
