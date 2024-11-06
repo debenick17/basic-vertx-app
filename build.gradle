@@ -26,6 +26,25 @@ application {
     mainClassName = launcherClassName
 }
 
+publishing {
+    repositories {
+        mavenLocal()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/debenick17/basic-vertx-app")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
 dependencies {
     implementation platform("io.vertx:vertx-stack-depchain:${vertxVersion}")
     implementation 'io.vertx:vertx-web-client'
