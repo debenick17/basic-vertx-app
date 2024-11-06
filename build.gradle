@@ -31,6 +31,7 @@ publishing {
         mavenLocal()
         maven {
             name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/debenick17/basic-vertx-app")
             url = uri("https://maven.pkg.github.com/debenick17")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
