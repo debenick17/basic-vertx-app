@@ -2,7 +2,7 @@ name: Basic Vertx App CI
 
 on:
   push:
-    branches: ["pi-t-2295-github-actions-builds"]
+    branches: [main]
 
 jobs:
   build:
