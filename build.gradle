@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+
+    id("maven-publish")
+}
+
+group = 'io.app'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    vertxVersion = '4.5.10'
+    junitJupiterVersion = '5.9.1'
+    mainVerticleName = 'io.app.basic.MainVerticle'
+    launcherClassName = 'io.vertx.core.Launcher'
+    watchForChange = 'src/**/*'
+    doOnChange = "${projectDir}/gradlew classes"
+}
+
+application {
+    mainClassName = 'io.app.basic.MainVerticle'
+}
+
+dependencies {
+    implementation platform("io.vertx:vertx-stack-depchain:${vertxVersion}")
+    implementation 'io.vertx:vertx-web-client'
+    implementation 'io.vertx:vertx-web-validation'
+    implementation 'io.vertx:vertx-config'
+    implementation 'io.vertx:vertx-web'
+    implementation 'io.vertx:vertx-web-openapi'
+    implementation 'io.vertx:vertx-service-discovery'
+    implementation 'io.vertx:vertx-circuit-breaker'
+    implementation 'io.vertx:vertx-web-api-contract'
+    testImplementation "io.vertx:vertx-junit5"
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_23
+    targetCompatibility = JavaVersion.VERSION_23
+}
+
+tasks.withType(com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    archiveClassifier.set('fat')
+    manifest {
+        attributes 'Main-Verticle': mainVerticleName
+    }
+    mergeServiceFiles()
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    testLogging {
+        events "PASSED", "SKIPPED", "FAILED"
+    }
+}
+
+tasks.withType(JavaExec) {
+    args = ['run', mainVerticleName, "--redeploy=${watchForChange}", "--launcher-class=${mainClassName}", "--on-redeploy=${doOnChange}"]
+}
