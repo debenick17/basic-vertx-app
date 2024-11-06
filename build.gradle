@@ -39,8 +39,13 @@ publishing {
         }
     }
     publications {
-        gpr(MavenPublication) {
-            from(components.java)
+        mavenJava(MavenPublication) {
+            from components.java // Specify the component to publish
+            artifact file('libs/*.jar') // Specify the artifact
+            pom {
+                name = 'My Artifact'
+                description = 'This is my Gradle artifact.'
+            }
         }
     }
 }
