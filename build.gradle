@@ -34,12 +34,12 @@ publishing {
             url = uri("https://maven.pkg.github.com/debenick17/basic-vertx-app")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                password = System.getenv("TOKEN")
             }
         }
     }
     publications {
-        gpr(MavenPublication) {
+        maven(MavenPublication) {
             from components.java
         }
     }
@@ -47,6 +47,12 @@ publishing {
 
 dependencies {
     implementation platform("io.vertx:vertx-stack-depchain:${vertxVersion}")
+    implementation("io.vertx:vertx-zipkin")
+    implementation("io.vertx:vertx-health-check")
+    implementation("io.vertx:vertx-opentelemetry")
+    implementation("io.vertx:vertx-micrometer-metrics")
+    implementation("io.vertx:vertx-opentracing")
+    implementation("io.vertx:vertx-dropwizard-metrics")
     implementation 'io.vertx:vertx-web-client'
     implementation 'io.vertx:vertx-web-validation'
     implementation 'io.vertx:vertx-config'
