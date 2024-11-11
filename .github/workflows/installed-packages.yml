@@ -1,15 +1,15 @@
-name: List Installed Packages
+# name: List Installed Packages
 
-on: [push]
+# on: [push]
 
-jobs:
-  list-packages:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
+# jobs:
+#   list-packages:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out the repository
+#         uses: actions/checkout@v2
 
-      - name: List installed packages
-        run: |
-          helm version
-          gradle -v
+#       - name: List installed packages
+#         run: |
+#           helm version
+#           gradle -v
